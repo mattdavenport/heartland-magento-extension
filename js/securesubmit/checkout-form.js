@@ -45,6 +45,11 @@ function securesubmitMultishipping(multiForm) {
             // Use stored card not checked, get new token
             else {
                 if (SecureSubmitMagento.options.useIframes) {
+                    if ( typeof SecureSubmitMagento.options.validateFrames === 'function'
+                        && ! SecureSubmitMagento.options.validateFrames()
+                    ) {
+                        return;
+                    }
                     SecureSubmitMagento.hps.Messages.post({
                         accumulateData: true,
                         action: 'tokenize',
@@ -164,6 +169,11 @@ document.observe('dom:loaded', function () {
                 // Use stored card not checked, get new token
                 else {
                     if (SecureSubmitMagento.options.useIframes) {
+                        if ( typeof SecureSubmitMagento.options.validateFrames === 'function'
+                            && ! SecureSubmitMagento.options.validateFrames()
+                        ) {
+                            return;
+                        }
                         checkout.setLoadWaiting('payment');
                         SecureSubmitMagento.hps.Messages.post({
                             accumulateData: true,
@@ -254,6 +264,11 @@ document.observe('dom:loaded', function () {
                     return;
                 }
                 if (SecureSubmitMagento.options.useIframes) {
+                    if ( typeof SecureSubmitMagento.options.validateFrames === 'function'
+                        && ! SecureSubmitMagento.options.validateFrames()
+                    ) {
+                        return;
+                    }
                     SecureSubmitMagento.hps.Messages.post({
                         accumulateData: true,
                         action: 'tokenize',
@@ -396,6 +411,11 @@ document.observe('dom:loaded', function () {
                     });
                 } else {
                     if (SecureSubmitMagento.options.useIframes) {
+                        if ( typeof SecureSubmitMagento.options.validateFrames === 'function'
+                            && ! SecureSubmitMagento.options.validateFrames()
+                        ) {
+                            return;
+                        }
                         SecureSubmitMagento.hps.Messages.post({
                             accumulateData: true,
                             action: 'tokenize',
@@ -844,6 +864,11 @@ document.observe('dom:loaded', function () {
                             checkout.setLoadWaiting(false);
                         } else if (typeof OPC !== 'undefined' && window.checkout) {
                             checkout.setLoadWaiting(false);
+                        }
+                    },
+                    onEvent: function (event) {
+                        if (THIS.options.onEvent) {
+                            THIS.options.onEvent.call(THIS, event);
                         }
                     }
                 };
