@@ -140,6 +140,20 @@ SecureSubmitMagento.init({
     allowGift: <?= $allow_heartland_gift ? 'true' : 'false' ?>,
     giftBalanceUrl: '<?= Mage::getUrl('securesubmit/giftcard/getBalance', array('_secure' => true)) ?>',
     useIframes: <?= $use_iframes ? 'true' : 'false' ?>,
+    onEvent: function (message) {
+        var valid = false, invalid = false;
+        if (message.classes) {
+            valid = message.classes.indexOf('valid') > -1;
+            invalid = message.classes.indexOf('invalid') > -1;
+            this.options.fieldStatuses[message.source] = valid ? true : invalid ? false : null;
+        }
+    },
+    validateFrames: function() {
+        return      this.fieldStatuses['cardNumber'] == true
+                  && this.fieldStatuses['cardExpiration'] == true
+                  && this.fieldStatuses['cardCvv'] == true;
+    },
+    fieldStatuses: {},
     style: {
         '#heartland-field': {
             'height': '40px',
