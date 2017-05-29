@@ -60,6 +60,10 @@ function securesubmitMultishipping(multiForm) {
                     if (validator.validate()) {
                         if ($('hps_securesubmit_exp_date').value) {
                             var date = $('hps_securesubmit_exp_date').value.split('/');
+                            if(date.length < 2) {
+                                checkout.setLoadWaiting(false);
+                                return;
+                            }
                             $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                             $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                         }
@@ -89,6 +93,10 @@ function securesubmitMultishipping(multiForm) {
 
             if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                 var date = $('hps_securesubmit_exp_date').value.split('/');
+                if(date.length < 2) {
+                    checkout.setLoadWaiting(false);
+                    return;
+                }
                 $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                 $('hps_securesubmit_cc_exp_year').value = date[1].trim();
             }
@@ -187,6 +195,10 @@ document.observe('dom:loaded', function () {
 
                             if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                                 var date = $('hps_securesubmit_exp_date').value.split('/');
+                                if(date.length < 2) {
+                                    checkout.setLoadWaiting(false);
+                                    return;
+                                }
                                 $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                                 $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                             }
@@ -216,6 +228,10 @@ document.observe('dom:loaded', function () {
 
                 if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                     var date = $('hps_securesubmit_exp_date').value.split('/');
+                    if(date.length < 2) {
+                        checkout.setLoadWaiting(false);
+                        return;
+                    }
                     $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                     $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                 }
@@ -277,6 +293,10 @@ document.observe('dom:loaded', function () {
                 } else {
                     if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                         var date = $('hps_securesubmit_exp_date').value.split('/');
+                        if(date.length < 2) {
+                            checkout.setLoadWaiting(false);
+                            return;
+                        }
                         $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                         $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                     }
@@ -300,6 +320,10 @@ document.observe('dom:loaded', function () {
 
                 if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                     var date = $('hps_securesubmit_exp_date').value.split('/');
+                    if(date.length < 2) {
+                        checkout.setLoadWaiting(false);
+                        return;
+                    }
                     $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                     $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                 }
@@ -381,6 +405,10 @@ document.observe('dom:loaded', function () {
 
                 if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                     var date = $('hps_securesubmit_exp_date').value.split('/');
+                    if(date.length < 2) {
+                        checkout.setLoadWaiting(false);
+                        return;
+                    }
                     $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                     $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                 }
@@ -453,6 +481,10 @@ document.observe('dom:loaded', function () {
 
             if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                 var date = $('hps_securesubmit_exp_date').value.split('/');
+                if(date.length < 2) {
+                    checkout.setLoadWaiting(false);
+                    return;
+                }
                 $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                 $('hps_securesubmit_cc_exp_year').value = date[1].trim();
             }
@@ -534,6 +566,10 @@ document.observe('dom:loaded', function () {
                     } else {
                         if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                             var date = $('hps_securesubmit_exp_date').value.split('/');
+                            if(date.length < 2) {
+                                checkout.setLoadWaiting(false);
+                                return;
+                            }
                             $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                             $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                         }
@@ -569,6 +605,10 @@ document.observe('dom:loaded', function () {
 
             if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                 var date = $('hps_securesubmit_exp_date').value.split('/');
+                if(date.length < 2) {
+                    checkout.setLoadWaiting(false);
+                    return;
+                }
                 $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                 $('hps_securesubmit_cc_exp_year').value = date[1].trim();
             }
@@ -630,6 +670,10 @@ document.observe('dom:loaded', function () {
                 } else {
                     if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                         var date = $('hps_securesubmit_exp_date').value.split('/');
+                        if(date.length < 2) {
+                            checkout.setLoadWaiting(false);
+                            return;
+                        }
                         $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                         $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                     }
@@ -653,6 +697,10 @@ document.observe('dom:loaded', function () {
 
                 if ($('hps_securesubmit_exp_date') && $('hps_securesubmit_exp_date').value) {
                     var date = $('hps_securesubmit_exp_date').value.split('/');
+                    if(date.length < 2) {
+                        checkout.setLoadWaiting(false);
+                        return;
+                    }
                     $('hps_securesubmit_cc_exp_month').value = date[0].trim();
                     $('hps_securesubmit_cc_exp_year').value = date[1].trim();
                 }
