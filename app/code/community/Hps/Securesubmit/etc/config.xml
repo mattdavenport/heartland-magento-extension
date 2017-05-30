@@ -158,6 +158,16 @@
                 </args>
             </hps_securesubmit>
         </routers>
+        <events>
+            <controller_action_layout_load_before>
+                <observers>
+                    <securesubmit>
+                        <class>hps_securesubmit/observer</class>
+                        <method>frontendAddLayoutHandles</method>
+                    </securesubmit>
+                </observers>
+            </controller_action_layout_load_before>
+        </events>
     </frontend>
     <adminhtml>
         <secure_url>
