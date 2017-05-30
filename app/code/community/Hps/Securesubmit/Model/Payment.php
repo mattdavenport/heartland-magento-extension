@@ -527,7 +527,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
     {
         $transactionDetails = $this->getTransactionDetails($payment);
         if ($this->canVoid($payment) && $this->transactionActiveOnGateway($transactionDetails)) {
-            if ($transactionDetails->settlementAmt > $amount) {
+            if ($transactionDetails->settlementAmount > $amount) {
                 $this->_reversal($payment, $transactionDetails, $amount);
             } else {
                 $this->void($payment);
@@ -539,7 +539,10 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         return $this;
     }
 
-
+    /**
+     * @param Varien_Object $payment
+     * @return HpsReportTransactionDetails
+     */
     public function getTransactionDetails(Varien_Object $payment)
     {
         $transactionId = null;
@@ -551,15 +554,22 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         }
 
         $service = $this->_getChargeService();
-        return $service->get($transactionId)->execute();
+        return $service->get($transactionId);
     }
 
-
-    public function transactionActiveOnGateway($transactionDetail)
+    /**
+     * @param HpsReportTransactionDetails $transactionDetail
+     * @return bool
+     */
+    public function transactionActiveOnGateway(HpsReportTransactionDetails $transactionDetail)
     {
         return $transactionDetail->transactionStatus == 'A';
     }
 
+    /**
+     * @param Varien_Object $payment
+     * @return bool
+     */
     public function getParentTransactionId(Varien_Object $payment)
     {
         $transaction = Mage::getModel('sales/order_payment_transaction')->getCollection()
