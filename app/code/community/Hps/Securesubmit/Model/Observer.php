@@ -36,4 +36,29 @@ class Hps_Securesubmit_Model_Observer
             Mage::helper('hps_securesubmit')->removeStoredCards($customerAddress->getId());
         }
     }
+
+    /**
+     * Add layout handles for JS and CSS resources to checkout pages only if SecureSubmit is enabled.
+     *
+     * @param Varien_Event_Observer $observer
+     */
+    public function frontendAddLayoutHandles(Varien_Event_Observer $observer)
+    {
+        if (Mage::helper('hps_securesubmit')->isActive()) {
+            $action = $observer->getAction(); /* @var $action Mage_Core_Controller_Varien_Action */
+            switch ($action->getFullActionName()) {
+                case 'opc_index_index':
+                case 'onestepcheckout_index_index':
+                case 'checkout_onepage_index':
+                case 'onepagecheckout_index_index':
+                case 'checkout_multishipping_billing':
+                    $action->getLayout()->getUpdate()->addHandle('hps_securesubmit_add_js');
+                    $action->getLayout()->getUpdate()->addHandle('hps_securesubmit_add_css');
+                    if (Mage::helper('hps_securesubmit')->is3DSecureActive()) {
+                        $action->getLayout()->getUpdate()->addHandle('hps_securesubmit_add_3dsecure');
+                    }
+            }
+        }
+
+    }
 }

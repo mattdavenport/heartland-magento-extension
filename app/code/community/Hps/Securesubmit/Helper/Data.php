@@ -8,11 +8,32 @@
 
 class Hps_Securesubmit_Helper_Data extends Mage_Core_Helper_Abstract
 {
+    const XML_PATH_PAYMENT_HPS_SECURESUBMIT_ACTIVE          = 'payment/hps_securesubmit/active';
+    const XML_PATH_PAYMENT_HPS_SECURESUBMIT_ENABLE_3DSECURE = 'payment/hps_securesubmit/enable_threedsecure';
     const XML_PATH_PAYMENT_HPS_SECURESUBMIT_SECRET_API_KEY  = 'payment/hps_securesubmit/secretapikey';
     const XML_PATH_PAYMENT_HPS_SECURESUBMIT_PUBLIC_API_KEY  = 'payment/hps_securesubmit/publicapikey';
     const XML_PATH_PAYMENT_HPS_SECURESUBMIT_USE_HTTP_PROXY  = 'payment/hps_securesubmit/use_http_proxy';
     const XML_PATH_PAYMENT_HPS_SECURESUBMIT_HTTP_PROXY_HOST = 'payment/hps_securesubmit/http_proxy_host';
     const XML_PATH_PAYMENT_HPS_SECURESUBMIT_HTTP_PROXY_PORT = 'payment/hps_securesubmit/http_proxy_port';
+
+
+    /**
+     * @param null|int $storeId
+     * @return bool
+     */
+    public function isActive($storeId = NULL)
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_PAYMENT_HPS_SECURESUBMIT_ACTIVE, $storeId);
+    }
+
+    /**
+     * @param null|int $storeId
+     * @return bool
+     */
+    public function is3DSecureActive($storeId = NULL)
+    {
+        return Mage::getStoreConfigFlag(self::XML_PATH_PAYMENT_HPS_SECURESUBMIT_ENABLE_3DSECURE, $storeId);
+    }
 
     /**
      * Retrieve list of the stored credit cards for the customer
