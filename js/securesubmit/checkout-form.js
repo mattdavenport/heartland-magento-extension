@@ -771,9 +771,11 @@ document.observe('dom:loaded', function () {
             }
 
             // MageStore OSC
-            window.payment = window.payment || {};
-            window.payment.secureSubmitPublicKeyOSC = THIS.options.publicKey;
-            window.payment.secureSubmitGetTokenDataUrlOSC = THIS.options.tokenDataUrl;
+            if (typeof oscPlaceOrder === 'function') {
+                window.payment = window.payment || {};
+                window.payment.secureSubmitPublicKeyOSC = THIS.options.publicKey;
+                window.payment.secureSubmitGetTokenDataUrlOSC = THIS.options.tokenDataUrl;
+            }
 
             // IWD OPC
             if (typeof IWD !== 'undefined' && typeof IWD.OPC !== 'undefined') {
