@@ -97,7 +97,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         $additionalData = new Varien_Object($payment->getAdditionalData() ? unserialize($payment->getAdditionalData()) : null);
         $secureToken = $additionalData->getSecuresubmitToken() ? $additionalData->getSecuresubmitToken() : null;
         $saveCreditCard = !! (bool)$additionalData->getCcSaveFuture();
-        $customerId = $additionalData->getCustomerId();
+        $customerId = $order->getCustomerId();
         $giftService = $this->_getGiftService();
         $giftCardNumber = $additionalData->getGiftcardNumber();
         $giftCardPin = filter_var($additionalData->getGiftcardPin(),FILTER_VALIDATE_INT, ARRAY('default' => FILTER_NULL_ON_FAILURE));
@@ -167,7 +167,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         }
 
         $cardType = $payment->getCcType();
-        if ($saveCreditCard) {
+        if ($saveCreditCard && $customerId) {
             $multiToken = true;
             $cardData = new HpsCreditCard();
             $cardData->number = $payment->getCcLast4();
@@ -228,7 +228,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
 
             if ($multiToken) {
                 if ($savedCard = $this->saveMultiUseToken($response, $cardData, $customerId, $cardType)) {
-                    Mage::helper('hps_securesubmit')->saveCardToAddress($savedCard, $payment->getOrder()->getCustomerId());
+                    Mage::helper('hps_securesubmit')->saveCardToAddress($savedCard, $customerId);
                 } else {
                     Mage::log('Requested multi token has not been generated for the transaction # ' . $response->transactionId, Zend_Log::WARN);
                 }
@@ -331,9 +331,9 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
             }
 
             if ($customerId > 0) {
-                Mage::helper('hps_securesubmit')->saveMultiToken($tokenData->tokenValue, $cardData, $cardType, $customerId);
+                return Mage::helper('hps_securesubmit')->saveMultiToken($tokenData->tokenValue, $cardData, $cardType, $customerId);
             } else {
-                Mage::helper('hps_securesubmit')->saveMultiToken($tokenData->tokenValue, $cardData, $cardType);
+                return Mage::helper('hps_securesubmit')->saveMultiToken($tokenData->tokenValue, $cardData, $cardType);
             }
         } else {
             Mage::log('Requested multi token has not been generated for the transaction # ' . $response->transactionId, Zend_Log::WARN);
@@ -868,7 +868,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         $cardHolder->firstName = substr($billing->getData('firstname'), 0, 26);
         $cardHolder->lastName = substr($billing->getData('lastname'), 0, 26);
         $cardHolder->phone = substr(preg_replace('/[^0-9]/', '', $billing->getTelephone()), 0, 10);
-        $cardHolder->emailAddress = substr($billing->getData('email'), 0, 40);
+        $cardHolder->email = substr($billing->getData('email'), 0, 40);
         $cardHolder->address = $address;
 
         return $cardHolder;

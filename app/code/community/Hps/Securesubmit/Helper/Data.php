@@ -113,8 +113,8 @@ class Hps_Securesubmit_Helper_Data extends Mage_Core_Helper_Abstract
         return ($hasPublicKey && $hasSecretKey);
     }
 
-    /*
-     * Save relation between the stored card and the customer's shipping addresses
+    /**
+     * Save relation between the stored card and the customer's addresses
      *
      * @param int|Hps_Securesubmit_Model_Storedcard $cardId
      * @param int $customerId
@@ -128,13 +128,17 @@ class Hps_Securesubmit_Helper_Data extends Mage_Core_Helper_Abstract
             $cardId = $cardId->getId();
         }
 
-        $select = $db->select()
-            ->from($resource->getTableName('customer/address_entity'), array(
-                'storedcard_id' => new Zend_Db_Expr(intval($cardId)),
-                'customer_address_id' => 'entity_id'
-            ))
-            ->where('parent_id = ?', intval($customerId));
-        $db->query($select->insertIgnoreFromSelect($resource->getTableName('hps_securesubmit/storedcard_address')));
+        try {
+            $select = $db->select()
+                ->from($resource->getTableName('customer/address_entity'), array(
+                    'storedcard_id' => new Zend_Db_Expr(intval($cardId)),
+                    'customer_address_id' => 'entity_id'
+                ))
+                ->where('parent_id = ?', intval($customerId));
+            $db->query($select->insertIgnoreFromSelect($resource->getTableName('hps_securesubmit/storedcard_address')));
+        } catch (Exception $e) {
+            Mage::logException($e);
+        }
     }
 
     /**
