@@ -248,10 +248,15 @@ class HpsCreditService extends HpsSoapGatewayService
         return $this->_submitTransaction($hpsTransaction, 'ManageTokens');
     }
 
+    /**
+     * @param string $transactionId
+     * @return HpsReportTransactionDetails
+     * @throws HpsArgumentException
+     */
     public function get($transactionId)
     {
         if ($transactionId <= 0) {
-            throw new HpsArgumentException('Invalid Transaction Id');
+            throw new HpsArgumentException('Invalid Transaction Id', HpsExceptionCodes::INVALID_NUMBER);
         }
 
         $xml = new DOMDocument();
@@ -263,13 +268,15 @@ class HpsCreditService extends HpsSoapGatewayService
         return $this->_submitTransaction($hpsTransaction, 'ReportTxnDetail');
     }
 
+    /**
+     * @param string $startDate
+     * @param string $endDate
+     * @param string null $filterBy
+     * @return HpsReportTransactionSummary
+     */
     public function listTransactions($startDate, $endDate, $filterBy = null)
     {
         $this->_filterBy = $filterBy;
-        date_default_timezone_set("UTC");
-        $dateFormat = 'Y-m-d\TH:i:s.00\Z';
-        $current = new DateTime();
-        $currentTime = $current->format($dateFormat);
 
         HpsInputValidation::checkDateNotFuture($startDate);
         HpsInputValidation::checkDateNotFuture($endDate);
@@ -473,7 +480,7 @@ class HpsCreditService extends HpsSoapGatewayService
      * @param null $clientTxnId
      * @param null $cardData
      *
-     * @return array|null
+     * @return mixed
      * @throws \HpsCreditException
      * @throws \HpsException
      * @throws \HpsGatewayException
