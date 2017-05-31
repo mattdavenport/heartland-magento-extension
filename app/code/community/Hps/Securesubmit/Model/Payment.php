@@ -236,7 +236,6 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         } catch (HpsCreditException $e) {
             $this->updateVelocity($e);
 
-            Mage::logException($e);
             $this->_debugChargeService($chargeService, $e);
 
             // refund gift (if used)
