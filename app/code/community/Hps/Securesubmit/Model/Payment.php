@@ -190,8 +190,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
             if ($capture) {
                 if ($payment->getCcTransId()) {
                     $builder = $chargeService->capture()
-                        ->withTransactionId($payment->getCcTransId())
-                        ->withAmount();
+                        ->withTransactionId($payment->getCcTransId());
                     $captureBuilder = true;
                 } else {
                     $builder = $chargeService->charge()
@@ -553,7 +552,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
         }
 
         $service = $this->_getChargeService();
-        return $service->get($transactionId);
+        return $service->get($transactionId)->execute();
     }
 
     /**
@@ -816,7 +815,7 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
     }
 
     /**
-     * @return HpsCreditService
+     * @return HpsFluentCreditService
      */
     protected function _getChargeService()
     {

@@ -2,7 +2,7 @@
 
 abstract class HpsBuilderAbstract
 {
-    /** @var array(HpsBuilderAction) */
+    /** @var HpsBuilderAction[] */
     public $builderActions = array();
 
     /** @var bool */
@@ -11,15 +11,13 @@ abstract class HpsBuilderAbstract
     /** @var array(callable) */
     public $validations    = array();
 
-    /** @var HpsRestGatewayService */
+    /** @var HpsGatewayServiceAbstract */
     protected $service     = null;
 
     /**
      * @param HpsGatewayServiceAbstract $service
-     *
-     * @return HpsBuilderAbstract
      */
-    public function __construct($service)
+    public function __construct(HpsGatewayServiceAbstract $service)
     {
         $this->service = $service;
     }
@@ -38,9 +36,10 @@ abstract class HpsBuilderAbstract
     }
 
     /**
+     * @param HpsBuilderAction $action
      * @return HpsBuilderAbstract
      */
-    public function addAction($action)
+    public function addAction(HpsBuilderAction $action)
     {
         $this->builderActions[] = $action;
         return $this;
@@ -76,7 +75,6 @@ abstract class HpsBuilderAbstract
                 $this->setPropertyIfExists($property, $args[0]);
                 break;
             default:
-                return false;
                 break;
         }
         return $this;
@@ -132,17 +130,15 @@ abstract class HpsBuilderAbstract
      * Sets a property if it exists on the current object.
      *
      * @param string $property
-     * @param mixed  $value
+     * @param mixed $value
      *
      * @throws HpsUnknownPropertyException
-     *
-     * @return null
      */
     private function setPropertyIfExists($property, $value)
     {
         if (property_exists($this, $property)) {
             if ($value == null) {
-                return $this;
+                return;
             }
 
             $action = new HpsBuilderAction($property, array($this, 'setProperty'));
@@ -158,8 +154,6 @@ abstract class HpsBuilderAbstract
      *
      * @param string $property
      * @param mixed  $value
-     *
-     * @return null
      */
     protected function setProperty($property, $value)
     {

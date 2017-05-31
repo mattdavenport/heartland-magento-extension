@@ -49,6 +49,14 @@ class HpsCreditService extends HpsSoapGatewayService
         return $this->_submitTransaction($hpsTransaction, 'CreditAuth', (isset($details->clientTransactionId) ? $details->clientTransactionId : null), $cardOrToken);
     }
 
+    /**
+     * @param string $transactionId
+     * @param string|float $amount
+     * @param string $gratuity
+     * @param string $clientTransactionId
+     * @param null|HpsDirectMarketData $directMarketData
+     * @return HpsCreditServiceGetBuilder
+     */
     public function capture($transactionId, $amount = null, $gratuity = null, $clientTransactionId = null, $directMarketData = null)
     {
         $xml = new DOMDocument();
@@ -250,7 +258,7 @@ class HpsCreditService extends HpsSoapGatewayService
 
     /**
      * @param string $transactionId
-     * @return HpsReportTransactionDetails
+     * @return HpsCreditServiceGetBuilder
      * @throws HpsArgumentException
      */
     public function get($transactionId)

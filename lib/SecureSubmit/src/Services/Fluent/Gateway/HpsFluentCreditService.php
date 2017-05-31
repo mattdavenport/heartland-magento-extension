@@ -21,6 +21,10 @@ class HpsFluentCreditService extends HpsSoapGatewayService
             ->withCurrency('usd');
     }
 
+    /**
+     * @param null|string $transactionId
+     * @return HpsCreditServiceCaptureBuilder
+     */
     public function capture($transactionId = null)
     {
         $builder = new HpsCreditServiceCaptureBuilder($this);
@@ -256,9 +260,6 @@ class HpsFluentCreditService extends HpsSoapGatewayService
                 break;
             case 'PrePaidAddValue':
                 $rvalue = HpsAuthorization::fromDict($response, $txnType);
-                break;
-            case 'CreditOfflineAuth':
-                $rvalue = HpsOfflineAuthorization::fromDict($response, $txnType);
                 break;
             case 'CreditOfflineAuth':
                 $rvalue = HpsOfflineAuthorization::fromDict($response, $txnType);

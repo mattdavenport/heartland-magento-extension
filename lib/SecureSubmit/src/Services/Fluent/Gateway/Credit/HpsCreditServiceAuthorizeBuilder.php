@@ -4,6 +4,7 @@
  * A fluent interface for creating and executing an authorization
  * transaction through the HpsCreditService.
  *
+ * @property HpsFluentCreditService service
  * @method HpsCreditServiceAuthorizeBuilder withAmount(double $amount)
  * @method HpsCreditServiceAuthorizeBuilder withCurrency(string $currency)
  * @method HpsCreditServiceAuthorizeBuilder withCard(HpsCreditCard $card)
@@ -198,8 +199,6 @@ class HpsCreditServiceAuthorizeBuilder extends HpsBuilderAbstract
 
     /**
      * Setups up validations for building authorizations.
-     *
-     * @return null
      */
     private function setUpValidations()
     {

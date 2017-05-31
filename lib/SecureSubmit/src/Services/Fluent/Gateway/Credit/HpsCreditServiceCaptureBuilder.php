@@ -4,6 +4,7 @@
  * A fluent interface for creating and executing a capture
  * transaction through the HpsCreditService.
  *
+ * @property HpsFluentCreditService service
  * @method HpsCreditServiceCaptureBuilder withTransactionId(string $transactionId)
  * @method HpsCreditServiceCaptureBuilder withAmount(double $amount)
  * @method HpsCreditServiceCaptureBuilder withGratuity(double $gratuity)
@@ -39,6 +40,7 @@ class HpsCreditServiceCaptureBuilder extends HpsBuilderAbstract
     }
 
     /**
+     *
      * Creates a capture transaction through the HpsCreditService
      */
     public function execute()
@@ -64,7 +66,7 @@ class HpsCreditServiceCaptureBuilder extends HpsBuilderAbstract
 
         $hpsTransaction->appendChild($hpsCreditAddToBatch);
         $response = $this->service->doRequest($hpsTransaction);
-        $this->_processChargeGatewayResponse($response, 'CreditAddToBatch');
+        HpsGatewayResponseValidation::checkResponse($response, 'CreditAddToBatch');
 
         return $this->service
             ->get($this->transactionId)
@@ -73,8 +75,6 @@ class HpsCreditServiceCaptureBuilder extends HpsBuilderAbstract
 
     /**
      * Setups up validations for building captures.
-     *
-     * @return null
      */
     private function setUpValidations()
     {
