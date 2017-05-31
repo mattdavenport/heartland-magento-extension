@@ -2,6 +2,7 @@
 
 abstract class HpsGatewayServiceAbstract
 {
+    /** @var HpsConfigInterface|HpsServicesConfig|HpsCentinelConfig|null */
     protected $_config     = null;
     protected $_baseConfig = null;
     protected $_url        = null;
@@ -17,6 +18,8 @@ abstract class HpsGatewayServiceAbstract
         }
     }
 
+    abstract protected function processResponse($curlResponse, $curlInfo, $curlError);
+
     public function servicesConfig()
     {
         return $this->_config;
@@ -29,7 +32,7 @@ abstract class HpsGatewayServiceAbstract
 
     protected function submitRequest($url, $headers, $data = null, $httpVerb = 'POST', $keyType = HpsServicesConfig::KEY_TYPE_SECRET, $options = null)
     {
-        if ($this->_isConfigInvalid()) {
+        if ($this->_config == null) {
             throw new HpsAuthenticationException(
                 HpsExceptionCodes::INVALID_CONFIGURATION,
                 "The HPS SDK has not been properly configured. "
@@ -114,18 +117,4 @@ abstract class HpsGatewayServiceAbstract
         }
     }
 
-    protected function _isConfigInvalid()
-    {
-        if ($this->_config == null && (
-                $this->_config->secretApiKey == null ||
-                $this->_config->userName == null ||
-                $this->_config->password == null ||
-                $this->_config->licenseId == -1 ||
-                $this->_config->deviceId == -1 ||
-                $this->_config->siteId == -1)
-        ) {
-            return true;
-        }
-        return false;
-    }
 }
