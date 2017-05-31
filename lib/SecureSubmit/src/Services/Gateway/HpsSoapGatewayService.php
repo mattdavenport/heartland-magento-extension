@@ -79,7 +79,7 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         $additionalTxnFields = $xml->createElement('hps:AdditionalTxnFields');
 
         if ($details->memo != null && $details->memo != "") {
-            $additionalTxnFields->appendChild($xml->createElement('hps:Description')->appendChild($xml->createTextNode($details->memo)));
+            $additionalTxnFields->appendChild($xml->createElement('hps:Description', $this->_htmlentities($details->memo)));
         }
 
         if ($details->invoiceNumber != null && $details->invoiceNumber != "") {
@@ -96,14 +96,14 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
     public function _hydrateCardHolderData(HpsCardHolder $cardHolder, DOMDocument $xml)
     {
         $cardHolderData = $xml->createElement('hps:CardHolderData');
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderFirstName')->appendChild($xml->createTextNode($cardHolder->firstName)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderLastName')->appendChild($xml->createTextNode($cardHolder->lastName)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderEmail')->appendChild($xml->createTextNode($cardHolder->email)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderPhone')->appendChild($xml->createTextNode($cardHolder->phone)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderAddr')->appendChild($xml->createTextNode($cardHolder->address->address)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderCity')->appendChild($xml->createTextNode($cardHolder->address->city)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderState')->appendChild($xml->createTextNode($cardHolder->address->state)));
-        $cardHolderData->appendChild($xml->createElement('hps:CardHolderZip')->appendChild($xml->createTextNode($cardHolder->address->zip)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderFirstName', $this->_htmlentities($cardHolder->firstName)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderLastName', $this->_htmlentities($cardHolder->lastName)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderEmail', $this->_htmlentities($cardHolder->email)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderPhone', $this->_htmlentities($cardHolder->phone)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderAddr', $this->_htmlentities($cardHolder->address->address)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderCity', $this->_htmlentities($cardHolder->address->city)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderState', $this->_htmlentities($cardHolder->address->state)));
+        $cardHolderData->appendChild($xml->createElement('hps:CardHolderZip', $this->_htmlentities($cardHolder->address->zip)));
 
         return $cardHolderData;
     }
@@ -140,14 +140,14 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         $consumerInfo = $xml->createElement('hps:ConsumerInfo');
 
         if ($check->checkHolder->address != null) {
-            $consumerInfo->appendChild($xml->createElement('hps:Address1')->appendChild($xml->createTextNode($check->checkHolder->address->address)));
-            $consumerInfo->appendChild($xml->createElement('hps:City')->appendChild($xml->createTextNode($check->checkHolder->address->city)));
-            $consumerInfo->appendChild($xml->createElement('hps:State')->appendChild($xml->createTextNode($check->checkHolder->address->state)));
-            $consumerInfo->appendChild($xml->createElement('hps:Zip')->appendChild($xml->createTextNode($check->checkHolder->address->zip)));
+            $consumerInfo->appendChild($xml->createElement('hps:Address1', $this->_htmlentities($check->checkHolder->address->address)));
+            $consumerInfo->appendChild($xml->createElement('hps:City', $this->_htmlentities($check->checkHolder->address->city)));
+            $consumerInfo->appendChild($xml->createElement('hps:State', $this->_htmlentities($check->checkHolder->address->state)));
+            $consumerInfo->appendChild($xml->createElement('hps:Zip', $this->_htmlentities($check->checkHolder->address->zip)));
         }
 
         if ($check->checkHolder->checkName != null) {
-            $consumerInfo->appendChild($xml->createElement('hps:CheckName')->appendChild($xml->createTextNode($check->checkHolder->checkName)));
+            $consumerInfo->appendChild($xml->createElement('hps:CheckName', $this->_htmlentities($check->checkHolder->checkName)));
         }
 
         if ($check->checkHolder->courtesyCard != null) {
@@ -163,15 +163,15 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         }
 
         if ($check->checkHolder->email != null) {
-            $consumerInfo->appendChild($xml->createElement('hps:EmailAddress')->appendChild($xml->createTextNode($check->checkHolder->email)));
+            $consumerInfo->appendChild($xml->createElement('hps:EmailAddress', $this->_htmlentities($check->checkHolder->email)));
         }
 
         if ($check->checkHolder->firstName != null) {
-            $consumerInfo->appendChild($xml->createElement('hps:FirstName')->appendChild($xml->createTextNode($check->checkHolder->firstName)));
+            $consumerInfo->appendChild($xml->createElement('hps:FirstName', $this->_htmlentities($check->checkHolder->firstName)));
         }
 
         if ($check->checkHolder->lastName != null) {
-            $consumerInfo->appendChild($xml->createElement('hps:LastName')->appendChild($xml->createTextNode($check->checkHolder->lastName)));
+            $consumerInfo->appendChild($xml->createElement('hps:LastName', $this->_htmlentities($check->checkHolder->lastName)));
         }
 
         if ($check->checkHolder->phone != null) {
@@ -196,7 +196,7 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
     {
         $cpcDataElement = $xml->createElement('hps:CPCData');
         if (isset($cpcData->cardHolderPONbr)) {
-            $cpcDataElement->appendChild($xml->createElement('hps:CardHolderPONbr')->appendChild($xml->createTextNode($cpcData->cardHolderPONbr)));
+            $cpcDataElement->appendChild($xml->createElement('hps:CardHolderPONbr', $this->_htmlentities($cpcData->cardHolderPONbr)));
         }
         if (isset($cpcData->taxAmt)) {
             $cpcDataElement->appendChild($xml->createElement('hps:TaxAmt', $cpcData->taxAmt));
@@ -375,5 +375,10 @@ class HpsSoapGatewayService extends HpsGatewayServiceAbstract implements HpsGate
         $dom = new DOMDocument();
         $dom->loadXML($xml);
         return $dom->getElementsByTagName('faultstring')->item(0)->nodeValue;
+    }
+
+    protected function _htmlentities($value)
+    {
+        return htmlspecialchars($value, ENT_NOQUOTES, 'UTF-8', FALSE);
     }
 }
