@@ -4,6 +4,7 @@
  * A fluent interface for creating and executing a charge
  * transaction through the HpsCreditService.
  *
+ * @property HpsFluentCreditService service
  * @method HpsCreditServiceChargeBuilder withAmount(double $amount)
  * @method HpsCreditServiceChargeBuilder withCurrency(string $currency)
  * @method HpsCreditServiceChargeBuilder withCard(HpsCreditCard $card)
@@ -175,7 +176,7 @@ class HpsCreditServiceChargeBuilder extends HpsBuilderAbstract
         $hpsCreditSale->appendChild($hpsBlock1);
         $hpsTransaction->appendChild($hpsCreditSale);
 
-        return $this->service->_submitTransaction($hpsTransaction, 'CreditSale', (isset($details->clientTransactionId) ? $details->clientTransactionId : null));
+        return $this->service->_submitTransaction($hpsTransaction, 'CreditSale');
     }
 
     /**
