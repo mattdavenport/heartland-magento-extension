@@ -154,10 +154,17 @@ document.observe('dom:loaded', function () {
                         parameters: {storedcard_id: storedcardId},
                         onSuccess: function(response) {
                             var data = response.responseJSON;
-                            if (data && data.token) {
-                                $('hps_securesubmit_cc_exp_month').value = parseInt(data.token.cc_exp_month);
-                                $('hps_securesubmit_cc_exp_year').value = data.token.cc_exp_year;
+                            if ( ! data || data.error || ! data.token) {
+                                if (data.error && data.message) {
+                                    alert(data.message);
+                                } else {
+                                    alert('Unknown error. Please try again.');
+                                }
+                                checkout.setLoadWaiting(false);
+                                return;
                             }
+                            $('hps_securesubmit_cc_exp_month').value = parseInt(data.token.cc_exp_month);
+                            $('hps_securesubmit_cc_exp_year').value = data.token.cc_exp_year;
                             this.secureSubmitResponseHandler.call(this, {
                                 card_type:    storedcardType,
                                 token_value:  data.token.token_value,
