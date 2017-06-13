@@ -20,6 +20,16 @@ class Hps_Securesubmit_PaypalController extends Mage_Core_Controller_Front_Actio
     }
 
     /**
+     * Do not dispatch if not enabled
+     */
+    public function preDispatch()
+    {
+        if ( ! Mage::helper('hps_securesubmit/paypal')->isActive()) {
+            $this->setFlag('', 'no-dispatch', true);
+        }
+    }
+
+    /**
      * Action for Bill Me Later checkout button (product view and shopping cart pages)
      */
     public function creditAction()

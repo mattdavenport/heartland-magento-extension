@@ -12,6 +12,15 @@ class Hps_Securesubmit_Helper_Paypal extends Hps_Securesubmit_Helper_Altpayment_
     protected $_methodCode = 'hps_paypal';
 
     /**
+     * @param int|null $storeId
+     * @return bool
+     */
+    public function isActive($storeId = NULL)
+    {
+        return Mage::getStoreConfigFlag('payment/'.$this->_methodCode.'/active', $storeId);
+    }
+
+    /**
      * Reserve order ID for specified quote and start checkout on PayPal
      *
      * @param string $returnUrl
