@@ -260,9 +260,9 @@ class Hps_Securesubmit_Model_Payment extends Mage_Payment_Model_Method_Cc
                 $payment->setStatus(self::STATUS_ERROR);
 
                 if ($e->getCode() == HpsExceptionCodes::POSSIBLE_FRAUD_DETECTED) {
-                    $this->throwUserError($this->_fraud_text, null, true);
+                    $this->throwUserError($this->_fraud_text, $e->details->issuerResponseText, TRUE);
                 } else {
-                    $this->throwUserError($e->getMessage(), null, true);
+                    $this->throwUserError($e->getMessage(), $e->details->issuerResponseText, TRUE);
                 }
             }
         } catch (HpsException $e) {
